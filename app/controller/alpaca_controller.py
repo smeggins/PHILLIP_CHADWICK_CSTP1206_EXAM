@@ -1,4 +1,4 @@
-from flask import render_template, json
+from flask import render_template, json, jsonify
 
 # as the models file contains all the models, import what you need
 from app.models import Alpaca
@@ -10,15 +10,41 @@ class AlpacaController(object):
     # alpacas from the database
     # CONDITIONS: If user specifies age, then must filter the list
     # RETURN: Return formatted Alpaca's to use for the view
-    def index(self):
-        return render_template("index.html")
+    def index(self, age):
+        data = Alpaca().get_all(age)
+        results = []
+        for item in data:
+            alpaca = {
+            'name' : item.name,
+            'displayName': item.displayName,
+            'profilePic': Alpaca().get_filename(item.name),
+            'age': item.age,
+            'sex': item.sex
+            }
+            results.append(alpaca)
+        if age != None:
+            intage = int(age)
+        else:
+            intage = age
+
+        return render_template("index.html", results=results, age=intage)
     
     # TODO: Implement Profile
     # WHAT: Grabs the relevant Alpaca from the model and uses it to
     # display the profile for that alpaca from the database
     # RETURN: Return formatted Alpaca to use for the view
-    def profile(self):
-        return render_template("profile.html")
+    def profile(self, name):
+        data = Alpaca().get(name)
+        results = {
+            'name' : data.name,
+            'displayName': data.displayName,
+            'profilePic': Alpaca().get_filename(data.name),
+            'hobbies': data.hobbiesList,
+            'bio': data.bio,
+            'hobbies' : data.hobbiesList,
+            'contact' : data.contactList
+        }
+        return render_template("profile.html", results=results, hobbies=results['hobbies'], contact=json.dumps(results['contact']))
     
     # TODO: Implement Search
     # WHAT: Uses the data recieved to find the Alpaca from the data
@@ -27,8 +53,17 @@ class AlpacaController(object):
     # be a filtered list of alpacas
     # RETURN: Return formatted alpacas as a list using the
     # search criteria
-    def search(self):
-        pass
+    def search(self, name):
+        data = Alpaca().get_all()
+        results = {
+            'message' : []
+        }
+        for item in data:
+            if name in item.name:
+                results['message'].append("searching with the letter " + name + " we found the following user: " + item.name + "\n")
+                print("using " + name + " we found the following user: " + item.name)
+
+        return jsonify(results)
     
     # TODO: Implement Create
     # WHAT: Uses the data recieved to create an Alpaca model
@@ -38,8 +73,12 @@ class AlpacaController(object):
     # i.e Fred was created!
     # CONDITIONS:
     # RETURN: Return formatted message using the relevant information
-    def create(self):
-        pass
+    def create(self, name, sex, bio, dName, age, hobbiesList, contactList):
+        alpaca = Alpaca(name, sex, bio, dName, age, hobbiesList, contactList)
+        data = {'message': "successfully created the following user: " + name + "\n using the current profile name: " + dName}
+        print('saving alpaca', name, sex, bio, dName, age, hobbiesList, contactList)
+
+        return jsonify(data)
 
     # TODO: Implement Delete
     # WHAT: Uses the data recieved to find the Alpaca from the data
@@ -50,7 +89,11 @@ class AlpacaController(object):
     # message stating what was saved i.e Fred was deleted!
     # CONDITIONS:
     # RETURN: Return formatted message using the relevant information
-    def delete(self):
-        pass
+    def delete(self, name):
+        deletedAlpaca = Alpaca().get(name)
+        data = {'message': "successfully delete the following user: " + deletedAlpaca.name}
+        print('deleting alpaca', deletedAlpaca.name)
+
+        return jsonify(data)
 
 alpaca_controller = AlpacaController()

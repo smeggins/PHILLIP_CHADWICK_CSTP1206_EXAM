@@ -135,25 +135,52 @@ class Alpaca(object):
     ]
     
     # TODO: Implement constructor for Alpaca Model
-    def __init__(self):
-        pass
+    def __init__(self, id=None, name=None, sex=None, bio=None, displayName=None, age=None, hobbiesList=None, contactList=None):
+        self.id = id
+        self.name = name
+        self.displayName = displayName
+        self.bio = bio
+        self.age = age
+        self.hobbiesList = hobbiesList
+        self.contactList = contactList
+        self.sex = sex
     
     # TODO: Implement get filename
     # WHAT: Method that returns the filename using the name of the alpaca
     # RETURN: The path to the image file
-    def get_filename(self):
-        pass
+    def get_filename(self, name):
+        for alpaca in self.data:
+            if (alpaca['name'] == name):
+                return 'static/assets/' + name + '.png'
 
     # TODO: Implement get
     # WHAT: Gets the alpaca that matches the name
     # CONDITIONS: If alpaca does not match then returns nothing
     # RETURN: Must return Alpaca Model type (convert to Alpaca object)
-    def get():
-        pass
+    def get(self, name):
+        for alpaca in self.data:
+            if (alpaca['name'] == name):
+                return Alpaca(alpaca['id'], alpaca['name'], alpaca['sex'], alpaca['bio'], alpaca['displayName'], alpaca['age'], alpaca['hobbies'], alpaca['contact'])
 
     # TODO: Implement get all
     # WHAT: Gets all the alpacas that match the sex (male, female)
     # CONDITIONS: If sex is not specified then returns all of them!
     # RETURN: Must return Alpaca Model types (convert to Alpaca objects)
-    def get_all():
-        pass
+    def get_all(self, age = None):
+        results =[]
+        if age == None:
+            for alpaca in self.data:
+                results.append(Alpaca(alpaca['id'], alpaca['name'], alpaca['sex'], alpaca['bio'], alpaca['displayName'], alpaca['age'], alpaca['hobbies'], alpaca['contact']))
+        else:
+            intAge = int(age)
+
+            if intAge >= 25 :
+                for alpaca in self.data:
+                    if (alpaca['age'] >= intAge):
+                        results.append(Alpaca(alpaca['id'], alpaca['name'], alpaca['sex'], alpaca['bio'], alpaca['displayName'], alpaca['age'], alpaca['hobbies'], alpaca['contact']))
+            else:
+                for alpaca in self.data:
+                    if (alpaca['age'] < intAge):
+                        results.append(Alpaca(alpaca['id'], alpaca['name'], alpaca['sex'], alpaca['bio'], alpaca['displayName'], alpaca['age'], alpaca['hobbies'], alpaca['contact']))
+        return results
+    

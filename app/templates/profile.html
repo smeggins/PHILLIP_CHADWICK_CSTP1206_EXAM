@@ -7,8 +7,104 @@
         <title>Alpaca Dating</title>
     </head>
     <style>
+        h1 {
+            font-size: 4vw;
+            font-family: sans-serif;
+            font-weight: 300;
+        }
+        h2 {
+            font-size: 3vw;
+            font-weight: 100;
+        }
+        p, li {
+            font-size: 2vw;
+            width: 34vw;
+        }
+        p {
+            margin: 0vw 5vw;
+        }
+        li {
+            max-width: 17vw;
+        }
+        header, footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        a {
+            text-decoration: none;
+            color: unset;
+        }
+        a:visited {
+            color: unset;
+        }
+        .indexButton {
+            background: dimgrey;
+            width: 17vw;
+            font-size: 1.5vw;
+            color: white;
+            height: 3vw;
+            border-radius: 1vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .profilePic {
+            max-width: 20vw;
+            height: 20vw;
+            border-radius: 100%;
+            overflow: hidden;
+        }
+        .profilePic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #profileContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1vw;
+            margin-bottom: 3vw;
+        }
+        #hobbiesContainer {
+            width: 22vw;
+        }
     </style>
     <body>
-        Profile Page
-    </body>
+        <header>
+            <div class="indexButton">
+                <a href="/">Home</a>
+            </div>
+            <h1 id="userName">{{results['displayName']}}</h1>
+            <div class="indexButton">
+                <div id="delete-data" data-delete="{{results['name']}}"></div>
+                <a id="deleteButton" onclick="deleteUser()">Delete</a>
+            </div>
+        </header>
+        <div id="profileContainer">
+            <div class="profilePic"><img src="../{{results['profilePic']}}" alt="profile pic"/></div>
+            <p>{{results['bio']}}</p>
+            <div id="hobbiesContainer">
+                <h2>Hobbies: </h2>
+                    <ul>
+                        {% for x in hobbies %}
+                        <li>
+                            {{x}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+            </div>
+        </div>
+        <footer>
+            <div class="indexButton">
+                <a onclick="hello()">Hello</a>
+            </div>
+            <h1></h1>
+            <div class="indexButton">
+                <div id="hello-data" data-hello="{{contact}}"></div>
+                <a id="createButton" onclick="createUser()">Create</a>
+            </div>
+        </footer>
 </html>

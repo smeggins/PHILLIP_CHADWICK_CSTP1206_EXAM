@@ -7,8 +7,98 @@
         <title>Alpaca Dating</title>
     </head>
     <style>
+        h1 {
+            font-size: 4vw;
+            font-family: sans-serif;
+            font-weight: 300;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        a {
+            text-decoration: none;
+            color: unset;
+        }
+        a:visited {
+            color: unset;
+        }
+        .indexButton {
+            background: dimgrey;
+            width: 17vw;
+            font-size: 1.5vw;
+            color: white;
+            height: 3vw;
+            border-radius: 1vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .profilePic {
+            max-width: 13vw;
+            height: 13vw;
+            border-radius: 100%;
+            overflow: hidden;
+        }
+        .profilePic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .datesItemsContainer {
+            background: lightgray;
+            width: 17vw;
+            padding: 2vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 3vw;
+            margin: 0vw 6vw;
+            margin-bottom: 3vw;
+        }
+        .profileData {
+            width: 15vw;
+        }
+        #datesContainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
     </style>
     <body>
-        Index Page
+        <header>
+            <div class="indexButton">
+                {% if not age or age <= 25 %}
+                    <a href="/26">Age > 25</a>
+                {% endif %}
+                {% if age and age > 25 %}
+                    <a href="/24">Age <= 25</a>
+                {% endif %}
+            </div>
+            <h1>Alpaca Dating</h1>
+            <div class="indexButton">
+                <a id="searchButton" onclick="searchUser()">Search</a>
+            </div>
+        </header>
+        <main>
+            <div id="datesContainer">
+                <!-- {% for x in results %} -->
+                <div class="datesItemsContainer">
+                    <h2 class="ProfileName">{{x['displayName']}}</h2>
+                    <div class="profilePic"><img src="{{x.profilePic}}" alt="profile pic"/></div>
+                    <div class="profileData">
+                        <h3 class="age">Age: {{x['age']}}</h3>
+                        <h3 class="sex">sex: {{x['sex']}}</h3>
+                    </div>
+                    <div class="indexButton">
+                        <a href="/profile/{{x['name']}}">
+                            profile
+                        </a>
+                    </div>
+                </div>
+                <!-- {% endfor %} -->
+            </div>
+        </main>
     </body>
 </html>
