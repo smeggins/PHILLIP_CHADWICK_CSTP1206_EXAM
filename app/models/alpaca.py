@@ -161,6 +161,8 @@ class Alpaca(object):
         for alpaca in self.data:
             if (alpaca['name'] == name):
                 return Alpaca(alpaca['id'], alpaca['name'], alpaca['sex'], alpaca['bio'], alpaca['displayName'], alpaca['age'], alpaca['hobbies'], alpaca['contact'])
+        
+        return
 
     # TODO: Implement get all
     # WHAT: Gets all the alpacas that match the sex (male, female)

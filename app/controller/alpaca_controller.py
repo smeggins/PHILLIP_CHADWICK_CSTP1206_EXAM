@@ -54,14 +54,19 @@ class AlpacaController(object):
     # RETURN: Return formatted alpacas as a list using the
     # search criteria
     def search(self, name):
-        data = Alpaca().get_all()
-        results = {
+        if name == None:
+            results = {
+            'message' : "you gave no parameters. could find no users"
+            }
+        else : 
+            data = Alpaca().get_all()
+            results = {
             'message' : []
-        }
-        for item in data:
-            if name in item.name:
-                results['message'].append("searching with the letter " + name + " we found the following user: " + item.name + "\n")
-                print("using " + name + " we found the following user: " + item.name)
+            }
+            for item in data:
+                if name in item.name:
+                    results['message'].append("searching with the letter " + name + " we found the following user: " + item.name + "\n")
+                    print("using " + name + " we found the following user: " + item.name)
 
         return jsonify(results)
     

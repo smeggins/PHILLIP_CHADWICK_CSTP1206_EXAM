@@ -83,7 +83,7 @@
         </header>
         <main>
             <div id="datesContainer">
-                <!-- {% for x in results %} -->
+                {% for x in results %}
                 <div class="datesItemsContainer">
                     <h2 class="ProfileName">{{x['displayName']}}</h2>
                     <div class="profilePic"><img src="{{x.profilePic}}" alt="profile pic"/></div>
@@ -97,7 +97,7 @@
                         </a>
                     </div>
                 </div>
-                <!-- {% endfor %} -->
+                {% endfor %}
             </div>
         </main>
     </body>
